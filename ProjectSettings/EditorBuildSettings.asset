@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BeanManScene.unity
     guid: d3cb7fe95cce4f9418a8bd0cb3ecaa42
+  - enabled: 1
+    path: Assets/Scenes/ChopperScene.unity
+    guid: 9ea5e5e52718d464b9db399152848b74
   m_configObjects: {}
