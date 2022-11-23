@@ -10,7 +10,7 @@ public class GameplayManager : MonoBehaviour
         bikeController.onKilled += RestartLevel;
     }
 
-    private void RestartLevel()
+    public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
