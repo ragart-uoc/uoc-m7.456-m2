@@ -1,14 +1,16 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BikeController : MonoBehaviour
 {
-    public float LinearSpeed = 1;
-    public float RotationSpeed = 50;
+    public float linearSpeed = 10;
+    public float rotationSpeed = 50;
 
-    public Transform BackWheel;
+    public Transform backWheel;
 
-    public Action OnKilled;
+    public Action onKilled;
+    public Action onReachedEndOfLevel;
 
     private Rigidbody2D rb;
     private float wheelRadius;
@@ -47,7 +49,7 @@ public class BikeController : MonoBehaviour
         if (IsGrounded())
         {
             var right = transform.right;
-            rb.velocity += new Vector2(right.x * LinearSpeed, right.y * LinearSpeed) * Time.deltaTime;
+            rb.velocity += new Vector2(right.x * linearSpeed, right.y * linearSpeed) * Time.deltaTime;
         }
     }
 
@@ -56,28 +58,36 @@ public class BikeController : MonoBehaviour
         if (IsGrounded())
         {
             var right = transform.right;
-            rb.velocity -= new Vector2(right.x * LinearSpeed, right.y * LinearSpeed) * Time.deltaTime;
+            rb.velocity -= new Vector2(right.x * linearSpeed, right.y * linearSpeed) * Time.deltaTime;
         }
     }
 
     private void DoWheelie()
     {
-        rb.MoveRotation(rb.rotation + RotationSpeed * Time.deltaTime);
+        rb.MoveRotation(rb.rotation + rotationSpeed * Time.deltaTime);
     }
 
     private void DoStoppie()
     {
-        rb.MoveRotation(rb.rotation - RotationSpeed * Time.deltaTime);
+        rb.MoveRotation(rb.rotation - rotationSpeed * Time.deltaTime);
     }
 
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircleAll(BackWheel.position, wheelRadius * 1.1f).Length > 1;
+        return Physics2D.OverlapCircleAll(backWheel.position, wheelRadius * 1.1f).Length > 1;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject != gameObject)
-            OnKilled?.Invoke();
+        Debug.Log("Triggered");
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            onReachedEndOfLevel?.Invoke();
+        }
+        else if (other.gameObject != gameObject)
+        {
+            Debug.Log("Killed");
+            onKilled?.Invoke();
+        }
     }
 }
