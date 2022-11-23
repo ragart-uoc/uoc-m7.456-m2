@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -79,14 +80,12 @@ public class BikeController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Triggered");
         if (other.gameObject.CompareTag("Finish"))
         {
             onReachedEndOfLevel?.Invoke();
         }
         else if (other.gameObject != gameObject)
         {
-            Debug.Log("Killed");
             onKilled?.Invoke();
         }
     }
